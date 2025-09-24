@@ -9,4 +9,4 @@ COPY app.py start.sh ./
 
 EXPOSE 8000
 
-CMD ["bash", "./start.sh"]
+CMD ["/bin/bash", "./start.sh"]

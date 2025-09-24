@@ -18,12 +18,12 @@ spec:
         app: my-api-deployment
     spec:
       containers:
-        - image: my-api:1.0
+        - image: ghcr.io/igallion/my-api:1.0
           name: my-api
           ports:
             - containerPort: 8000
           resources: {}
-          imagePullPolicy: Never
+          imagePullPolicy: Always
 status: {}
 ---
 apiVersion: v1
