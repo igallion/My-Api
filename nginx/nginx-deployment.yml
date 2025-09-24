@@ -18,12 +18,12 @@ spec:
         app: nginx-deployment
     spec:
       containers:
-        - image: my-nginx:1.0
+        - image: ghcr.io/igallion/my-nginx:1.0
           name: my-nginx
           ports:
             - containerPort: 80
           resources: {}
-          imagePullPolicy: Never
+          imagePullPolicy: Always
 status: {}
 ---
 apiVersion: v1

@@ -18,7 +18,7 @@ spec:
         app: my-api-deployment
     spec:
       containers:
-        - image: ghcr.io/igallion/my-api:1.0
+        - image: ghcr.io/igallion/my-api:1.1
           name: my-api
           ports:
             - containerPort: 8000
