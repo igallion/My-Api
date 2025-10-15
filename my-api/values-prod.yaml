@@ -1,0 +1,4 @@
+apiImageName: ghcr.io/igallion/my-api:1.1
+namespace: prod
+apiReplicas: 3
+nginxReplicas: 3

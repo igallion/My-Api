@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Values.nginxAppName }}
+  name: {{ .Values.nginxAppName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.nginxReplicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.nginxAppName }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Values.nginxAppName }}
+    spec:
+      containers:
+        - image: nginx
+          name: my-nginx
+          ports:
+            - containerPort: 80
+          resources: {}
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: {{ .Values.nginxDeploymentConfig }}
+
+
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.nginxServiceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.nginxAppName }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingressName }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  namespace: {{ .Values.namespace }}
+spec:
+  rules:
+    - host: {{ .Values.apiAppName }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.nginxServiceName }}
+                port:
+                  number: 80      

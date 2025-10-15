@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Values.apiAppName }}
+  name: {{ .Values.apiAppName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.apiReplicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.apiAppName }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Values.apiAppName }}
+    spec:
+      containers:
+        - image: {{ .Values.apiImageName }}
+          name: {{ .Values.apiAppName }}
+          ports:
+            - containerPort: 8000
+          resources: {}
+          imagePullPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Values.apiAppName }}
+  name: {{ .Values.apiServiceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - name: 8000-8000
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: {{ .Values.apiAppName }}
+  type: ClusterIP
+status:
+  loadBalancer: {}

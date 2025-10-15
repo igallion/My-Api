@@ -1,0 +1,13 @@
+nginxAppName: nginx-deployment
+nginxDeploymentConfig: nginx-deployment-config
+nginxServiceName: nginx-service
+nginxReplicas: 3
+
+apiAppName: my-api
+apiServiceName: my-api-service
+apiImageName: ghcr.io/igallion/my-api:1.1
+apiReplicas: 3
+
+ingressName: my-api-ingress
+
+namespace: default
