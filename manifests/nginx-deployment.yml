@@ -18,12 +18,22 @@ spec:
         app: nginx-deployment
     spec:
       containers:
-        - image: ghcr.io/igallion/my-nginx:1.0
+        - image: nginx
           name: my-nginx
           ports:
             - containerPort: 80
           resources: {}
           imagePullPolicy: Always
+          volumemounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-deployment-config
+            items:
+              - key: nginx.conf
 status: {}
 ---
 apiVersion: v1

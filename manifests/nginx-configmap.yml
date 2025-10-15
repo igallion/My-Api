@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-deployment-config
+  namespace: default
+data:
+  nginx.conf: |
+    events { }
+
+    http {
+
+      server {
+        listen 80;
+
+        location / {
+          proxy_pass http://my-api-service:8000/;
+        }
+
+        location /get-message {
+          proxy_pass http://my-api-service:8000/get-message;
+        }
+      }
+    }
