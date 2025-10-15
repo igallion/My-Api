@@ -29,19 +29,30 @@ status: {}
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
-  labels:
-    app: nginx-deployment
   name: nginx-service
 spec:
-  ports:
-    - name: 80-80
-      nodePort: 30001
-      port: 80
-      protocol: TCP
-      targetPort: 80
   selector:
     app: nginx-deployment
-  type: NodePort
-status:
-  loadBalancer: {}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: my-api
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80      
